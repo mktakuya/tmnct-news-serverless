@@ -37,6 +37,11 @@
     "@aws-cdk/core:target-partitions": [
       "aws",
       "aws-cn"
-    ]
+    ],
+    "config": {
+      "production": {
+        "bucketName": "tmnct-news-serverless-production"
+      }
+    }
   }
 }
