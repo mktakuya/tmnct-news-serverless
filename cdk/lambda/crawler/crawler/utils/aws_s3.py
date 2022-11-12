@@ -1,20 +1,17 @@
 import boto3
-import botocore
 
 
 s3 = boto3.resource("s3")
+s3_client = boto3.Session().client("s3")
 
 
 def is_exists(bucket_name: str, key: str) -> bool:
-    try:
-        s3.Object(bucket_name, key).load()
-
-        return True
-    except botocore.exceptions.ClientError as e:
-        if e.response["Error"]["Code"] == "404":
-            return False
-        else:
-            raise e
+    contents = s3_client.list_objects(Prefix=key, Bucket=bucket_name).get("Contents")
+    if contents:
+        for content in contents:
+            if content.get("Key") == key:
+                return True
+    return False
 
 
 def put_object(bucket_name: str, key: str, body: str):
