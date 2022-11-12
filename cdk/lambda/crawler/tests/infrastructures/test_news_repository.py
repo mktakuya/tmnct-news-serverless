@@ -6,6 +6,7 @@ from typing import get_args
 
 from crawler.models import News, NewsCategory
 from crawler.domains.news_fetcher import NewsFetcher
+from crawler.domains.news_saver import NewsSaver
 from crawler.infrastructures.news_repository import NewsRepositoryImpl
 
 
@@ -37,10 +38,18 @@ class MockedNewsFetcher(NewsFetcher):
         ]
 
 
+class MockedNewsSaver(NewsSaver):
+    def save(self, news: News) -> None:
+        pass
+
+
+mocked_fetcher = MockedNewsFetcher()
+mocked_saver = MockedNewsSaver()
+
+
 class TestNewsRepository(unittest.TestCase):
     def test_fetch_latest_news(self):
-        fetcher = MockedNewsFetcher()
-        repository = NewsRepositoryImpl(fetcher=fetcher)
+        repository = NewsRepositoryImpl(fetcher=mocked_fetcher, saver=mocked_saver)
         latest_news = repository.fetch_latest_news()
 
         # 単一のニュースが取得できていること
@@ -48,3 +57,11 @@ class TestNewsRepository(unittest.TestCase):
 
         # 最新のニュースが取得できていること
         assert latest_news.wp_pid == 1003
+
+    def test_save_news(self):
+        repository = NewsRepositoryImpl(fetcher=mocked_fetcher, saver=mocked_saver)
+
+        news = _build_news(sequence=4)
+
+        # ニュースが保存できていること
+        assert repository.save_news(news) is None
