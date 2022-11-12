@@ -3,10 +3,12 @@ name = "crawler"
 version = "0.1.0"
 description = ""
 authors = ["Takuya Mukohira <takuya.mk96@gmail.com>"]
-readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"
+pytest = "^7.2.0"
+feedparser = "^6.0.10"
+pytest-mock = "^3.10.0"
 
 
 [build-system]
