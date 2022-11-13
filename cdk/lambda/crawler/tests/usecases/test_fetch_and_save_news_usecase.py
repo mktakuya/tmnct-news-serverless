@@ -20,7 +20,7 @@ def _build_news() -> News:
 
 
 class MockedNewsRepository(NewsRepository):
-    def __init__(self, latest_news: News | None):
+    def __init__(self, latest_news: News):
         self.latest_news = latest_news
 
     def fetch_latest_news(self):
