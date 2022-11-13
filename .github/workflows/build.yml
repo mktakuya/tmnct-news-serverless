@@ -1,0 +1,69 @@
+name: Build
+
+on:
+  pull_request:
+    paths-ignore:
+      - "README.md"
+      - ".gitignore"
+
+jobs:
+  test-cdk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+          cache-dependency-path: cdk/package-lock.json
+
+      - name: Install packages
+        run: npm install
+        working-directory: ./cdk
+
+      - name: Run lint
+        run: npm run lint
+        working-directory: ./cdk
+
+      - name: Run tests
+        run: npm run test
+        working-directory: ./cdk
+
+  test-crawler:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.9.x"
+
+      - name: Setup poetry
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: "1.2.1"
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            cdk/lambda/crawler/.venv
+          key: ${{ runner.os }}-python-${{ hashFiles('cdk/lambda/crawler/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-python-
+
+      - name: Install packages
+        run: poetry config virtualenvs.in-project true && poetry install
+        working-directory: ./cdk/lambda/crawler
+
+      - name: Run lint
+        run: "echo 'TODO: Setup linting for python'"
+
+      - name: Run tests
+        run: poetry run pytest
+        working-directory: ./cdk/lambda/crawler
