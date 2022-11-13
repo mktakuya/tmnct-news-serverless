@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime
 
-from crawler.models import News
+from crawler.models import News, FetchAndSaveNewsResult
 from crawler.domains import NewsRepository
 
 from crawler.usecases import fetch_and_save_news_usecase
@@ -20,7 +20,7 @@ def _build_news() -> News:
 
 
 class MockedNewsRepository(NewsRepository):
-    def __init__(self, latest_news: News | None):
+    def __init__(self, latest_news: News):
         self.latest_news = latest_news
 
     def fetch_latest_news(self):
@@ -39,16 +39,17 @@ class TestFetchAndSaveNewsUsecase(unittest.TestCase):
         """
         最新ニュースが未保存の場合
         """
-        news = _build_news()
         news_repository = MockedNewsRepository(latest_news=None)
 
         result = fetch_and_save_news_usecase.fetch_and_save_news(news_repository=news_repository)
-        assert isinstance(result, News)
-        assert result.wp_pid == 1
+        assert isinstance(result, FetchAndSaveNewsResult)
+        assert result.updated is True
+        assert result.news.wp_pid == 1
 
     def test_fetch_and_save_news_usecase_when_latest_news_is_not_new(self):
         news_repository = MockedNewsRepository(latest_news=_build_news())
 
         result = fetch_and_save_news_usecase.fetch_and_save_news(news_repository=news_repository)
 
-        assert result is None
+        assert result.updated is False
+        assert result.news.wp_pid == 1
