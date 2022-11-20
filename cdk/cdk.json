@@ -39,6 +39,10 @@
       "aws-cn"
     ],
     "config": {
+      "staging": {
+        "newsFeedUrl": "https://www.tomakomai-ct.ac.jp/feed",
+        "s3BucketName": "tmnct-news-crawler-staging"
+      },
       "production": {
         "newsFeedUrl": "https://www.tomakomai-ct.ac.jp/feed",
         "s3BucketName": "tmnct-news-crawler-production"
