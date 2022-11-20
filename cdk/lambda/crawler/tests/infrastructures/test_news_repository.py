@@ -66,7 +66,6 @@ class TestNewsRepository(unittest.TestCase):
         news = _build_news(sequence=1)
         assert repository.is_exists(news=news) is False
 
-
     def test_save_news(self):
         repository = NewsRepositoryImpl(fetcher=mocked_fetcher, saver=mocked_saver)
 

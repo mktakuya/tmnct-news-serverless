@@ -62,7 +62,8 @@ jobs:
         working-directory: ./cdk/lambda/crawler
 
       - name: Run lint
-        run: "echo 'TODO: Setup linting for python'"
+        run: poetry run pflake8 *.py crawler/**/*.py tests/**/*.py
+        working-directory: ./cdk/lambda/crawler
 
       - name: Run tests
         run: poetry run pytest

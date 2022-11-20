@@ -8,7 +8,7 @@ from crawler.settings import Settings
 
 
 def handler(event, context):
-    logging.info('Started lambda function as fetchNews with event: %s', event)
+    logging.info("Started lambda function as fetchNews with event: %s", event)
 
     settings = Settings()
 
@@ -21,5 +21,5 @@ def handler(event, context):
     return result.to_dict()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     handler({}, {})
