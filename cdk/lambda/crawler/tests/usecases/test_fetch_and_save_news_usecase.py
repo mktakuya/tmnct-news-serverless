@@ -11,7 +11,7 @@ def _build_news() -> News:
     return News(
         title="サンプルニュース",
         wp_pid=1,
-        url=f"https://www.tomakomai-ct.ac.jp/news/1.html",
+        url="https://www.tomakomai-ct.ac.jp/news/1.html",
         pub_date=datetime(2022, 1, 1),
         category="news",
         content="サンプルニュースの内容",
