@@ -1,4 +1,4 @@
-import { aws_lambda as lambda, Duration } from 'aws-cdk-lib';
+import {aws_lambda as lambda, aws_events as events, aws_events_targets as targets, Duration} from 'aws-cdk-lib';
 import { CdkStack } from '../../cdk-stack';
 import { StackProps } from '../../stack-props';
 
@@ -19,3 +19,10 @@ export const buildFetchNewsLambda = (stack: CdkStack, props: StackProps) => {
     },
   });
 };
+
+export const buildRuleForFetchNewsLambda = (stack: CdkStack, props: StackProps, lambdaFunction: lambda.Function) => {
+  return new events.Rule(stack, `scheduleRuleForFetchNewsLambda-${props.stage}`, {
+    schedule: events.Schedule.rate(Duration.minutes(3)),
+    targets: [new targets.LambdaFunction(lambdaFunction)],
+  })
+}
