@@ -34,7 +34,6 @@ class MockedNewsRepository(NewsRepository):
 
 
 class TestFetchAndSaveNewsUsecase(unittest.TestCase):
-
     def test_fetch_and_save_news_usecase_when_latest_news_is_new(self):
         """
         最新ニュースが未保存の場合

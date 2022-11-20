@@ -13,6 +13,12 @@ dataclasses-json = "^0.5.7"
 boto3 = "^1.26.8"
 
 
+[tool.poetry.dev-dependencies]
+black = "^22.10.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+
+[tool.black]
+line-length = 120

@@ -19,4 +19,3 @@ class S3NewsSaver(NewsSaver):
     def save(self, news: News) -> None:
         key = _key(news)
         aws_s3.put_object(self.bucket_name, key, news.to_json(ensure_ascii=False))
-
