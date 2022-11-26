@@ -1,5 +1,4 @@
 import {
-  aws_iam as iam,
   aws_stepfunctions as sfn,
   aws_stepfunctions_tasks as tasks,
   RemovalPolicy,
@@ -11,6 +10,8 @@ import {
 } from 'aws-cdk-lib';
 import { CdkStack } from '../../cdk-stack';
 import { StackProps } from '../../stack-props';
+
+import { buildTweetNewsLambda, buildEmailNewsLambda } from './notifyNewsLambdas';
 
 export const buildCrawlerStateMachine = (stack: CdkStack, props: StackProps, bucket: s3.Bucket) => {
   const stepfunctionsLogGroupName = `/aws/vendedlogs/states/tmnct-news-crawler-${props.stage}`;
@@ -30,7 +31,22 @@ export const buildCrawlerStateMachine = (stack: CdkStack, props: StackProps, buc
     outputPath: '$.Body',
   });
 
-  const definition = fetchNewsContentTask;
+  const tweetNewsLambda = buildTweetNewsLambda(stack, props);
+  const tweetNewsTask = new tasks.LambdaInvoke(stack, `tweet-news-task-${props.stage}`, {
+    lambdaFunction: tweetNewsLambda,
+  });
+
+  const emailNewsLambda = buildEmailNewsLambda(stack, props);
+  const emailNewsTask = new tasks.LambdaInvoke(stack, `email-news-task-${props.stage}`, {
+    lambdaFunction: emailNewsLambda,
+  });
+
+  const definition = fetchNewsContentTask.next(
+    new sfn.Parallel(stack, `tweet-news-parallel-${props.stage}`)
+      .branch(tweetNewsTask)
+      .branch(emailNewsTask)
+      .next(new sfn.Succeed(stack, `success-${props.stage}`))
+  );
 
   const stateMachine = new sfn.StateMachine(stack, `crawlerStateMachine-${props.stage}`, {
     definition,
