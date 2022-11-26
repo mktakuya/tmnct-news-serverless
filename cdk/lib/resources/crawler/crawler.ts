@@ -19,7 +19,18 @@ export const buildCrawlerStateMachine = (stack: CdkStack, props: StackProps, buc
     removalPolicy: RemovalPolicy.DESTROY,
   });
 
-  const definition = new sfn.Pass(stack, 'PASS');
+  const fetchNewsContentTask = new tasks.CallAwsService(stack, `fetch-news-content-task-${props.stage}`, {
+    service: 's3',
+    action: 'getObject',
+    parameters: {
+      Bucket: bucket.bucketName,
+      Key: sfn.JsonPath.stringAt('$.object.key'),
+    },
+    iamResources: [`${bucket.bucketArn}/*`],
+    outputPath: '$.Body',
+  });
+
+  const definition = fetchNewsContentTask;
 
   const stateMachine = new sfn.StateMachine(stack, `crawlerStateMachine-${props.stage}`, {
     definition,
@@ -28,6 +39,8 @@ export const buildCrawlerStateMachine = (stack: CdkStack, props: StackProps, buc
     },
     timeout: Duration.minutes(5),
   });
+
+  bucket.grantRead(stateMachine);
 
   return stateMachine;
 };
