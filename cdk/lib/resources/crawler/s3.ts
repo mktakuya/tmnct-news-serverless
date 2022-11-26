@@ -7,5 +7,6 @@ export const buildS3Bucket = (stack: CdkStack, props: StackProps) => {
     bucketName: `tmnct-news-crawler-${props.stage}`,
     blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
     removalPolicy: RemovalPolicy.DESTROY,
+    eventBridgeEnabled: true,
   });
 };
