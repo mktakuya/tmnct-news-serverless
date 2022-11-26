@@ -1,4 +1,4 @@
-import { aws_lambda as lambda, Duration } from 'aws-cdk-lib';
+import { aws_ssm as ssm, aws_lambda as lambda, Duration } from 'aws-cdk-lib';
 import { CdkStack } from '../../cdk-stack';
 import { StackProps } from '../../stack-props';
 
@@ -13,7 +13,9 @@ export const buildTweetNewsLambda = (stack: CdkStack, props: StackProps) => {
     }),
     timeout: Duration.seconds(30),
     memorySize: 128,
-    environment: {},
+    environment: {
+      TWITTER_CREDENTIALS_KEY_PREFIX: props.twitterCredentialsKeyPrefix,
+    },
   });
 };
 
