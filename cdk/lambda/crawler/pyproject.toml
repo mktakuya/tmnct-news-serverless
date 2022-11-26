@@ -11,6 +11,7 @@ feedparser = "^6.0.10"
 pytest-mock = "^3.10.0"
 dataclasses-json = "^0.5.7"
 boto3 = "^1.26.8"
+tweepy = "^4.12.1"
 
 
 [tool.poetry.dev-dependencies]
