@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import date
 
 from dataclasses_json import dataclass_json
 
@@ -12,7 +12,7 @@ class News:
     title: str
     wp_pid: int
     url: str
-    pub_date: datetime
+    pub_date: date
     category: NewsCategory
     content: str
     slug: str
