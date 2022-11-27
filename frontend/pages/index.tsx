@@ -1,16 +1,23 @@
 import type { NextPage } from "next";
-import Head from "next/head";
-import { Heading } from "@chakra-ui/react";
+import { Heading, Link, Divider, Text } from "@chakra-ui/react";
+import { Layout } from "../components/Layout";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 
 const Home: NextPage = () => {
   return (
-    <div>
-      <Head>
-        <title>苫小牧高専News</title>
-      </Head>
-
+    <Layout>
       <Heading>苫小牧高専News</Heading>
-    </div>
+
+      <Divider mb={"1rem"} />
+
+      <Text>苫小牧高専のニュースをTwitterでお届け。</Text>
+
+      <Text>
+        <Link href={"https://twitter.com/TmNCT_News"} isExternal>
+          @TmNCT_News <ExternalLinkIcon mx="2px" textAlign={"center"} />
+        </Link>
+      </Text>
+    </Layout>
   );
 };
 
