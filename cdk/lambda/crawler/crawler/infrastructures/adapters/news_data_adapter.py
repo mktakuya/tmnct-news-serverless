@@ -1,4 +1,3 @@
-import json
 from dateutil import parser
 
 from crawler.domains.adapters import InputDataAdapter

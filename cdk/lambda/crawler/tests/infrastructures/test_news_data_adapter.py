@@ -7,7 +7,9 @@ from crawler.infrastructures.adapters import NewsDataAdapter
 
 def data():
     return {
-        "title": "サンプルニュース", "wp_pid": 19191, "url": "https://www.tomakomai-ct.ac.jp/news/19191.html",
+        "title": "サンプルニュース",
+        "wp_pid": 19191,
+        "url": "https://www.tomakomai-ct.ac.jp/news/19191.html",
         "pub_date": "Fri, 25 Nov 2022 00:02:46 +0000",
         "category": "news",
         "content": "サンプルニュースの内容",
