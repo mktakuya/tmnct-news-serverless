@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
 
-from crawler.models import News
-
 
 class NotifyNewsService(ABC):
+    def __init__(self, news):
+        self.news = news
+
     @abstractmethod
-    def notify(self, news: News) -> None:
+    def notify(self) -> None:
         pass
