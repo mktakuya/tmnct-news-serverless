@@ -15,5 +15,14 @@ class TwitterClient:
 
         self.api = tweepy.API(auth)
 
-    def tweet(self, body: str):
-        self.api.update_status(body)
+    def tweet(self, body: str, image_paths: list[str] = []):
+        if len(image_paths) >= 1:
+            media_ids = []
+
+            for image_path in image_paths:
+                media = self.api.simple_upload(image_path)
+                media_ids.append(media.media_id)
+
+            self.api.update_status(status=body, media_ids=media_ids)
+        else:
+            self.api.update_status(body)

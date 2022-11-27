@@ -35,4 +35,4 @@ class TestTweetNewsService(unittest.TestCase):
 
         service.notify()
 
-        twitter_client.tweet.assert_called_once_with(expected_body)
+        twitter_client.tweet.assert_called_once_with(expected_body, [])
