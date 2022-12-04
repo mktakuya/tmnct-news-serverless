@@ -1,0 +1,38 @@
+name: CDK Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  cdk-deploy-production:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_FOR_PRODUCTION }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_FOR_PRODUCTION }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Setup Node 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+          cache-dependency-path: cdk/package-lock.json
+
+      - name: Install packages
+        run: npm install
+        working-directory: ./cdk
+
+      - name: Run cdk deploy
+        run: npx cdk deploy -c stage=production --require-approval never
+        working-directory: ./cdk
+        env:
+          CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
+          CDK_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
