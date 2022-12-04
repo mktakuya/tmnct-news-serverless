@@ -4,10 +4,27 @@ import {
   ListObjectsCommand,
 } from "@aws-sdk/client-s3";
 import { News } from "../models/news";
-import { Readable } from "stream";
 
 export const fetchAllNews = async () => {
-  const s3 = new S3Client({ region: "ap-northeast-1" });
+  // Vercel上では
+  // AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY
+  // という名前の環境変数を作れない。
+  // そのため、 _FOR_ME というsuffixをつけている。
+  // https://vercel.com/docs/concepts/limits/overview#reserved-variables
+  const accessKeyId =
+    process.env.AWS_ACCESS_KEY_ID_FOR_ME || process.env.AWS_ACCESS_KEY_ID || "";
+  const secretAccessKey =
+    process.env.AWS_SECRET_ACCESS_KEY_FOR_ME ||
+    process.env.AWS_SECRET_ACCESS_KEY ||
+    "";
+
+  const s3 = new S3Client({
+    region: "ap-northeast-1",
+    credentials: {
+      accessKeyId,
+      secretAccessKey,
+    },
+  });
   const bucketName = process.env.S3_BUCKET_NAME || "tmnct-news-crawler-staging";
 
   const listObjectsCommand = new ListObjectsCommand({
