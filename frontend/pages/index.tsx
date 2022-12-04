@@ -1,7 +1,9 @@
-import type { NextPage } from "next";
+import type { NextPage, GetServerSideProps } from "next";
 import { Heading, Link, Divider, Text } from "@chakra-ui/react";
 import { Layout } from "../components/Layout";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
+
+import { fetchAllNews } from "../lib/s3";
 
 const Home: NextPage = () => {
   return (
