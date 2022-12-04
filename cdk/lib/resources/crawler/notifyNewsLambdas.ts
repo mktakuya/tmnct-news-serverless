@@ -51,3 +51,24 @@ export const buildEmailNewsLambda = (stack: CdkStack, props: StackProps) => {
     environment: {},
   });
 };
+
+export const buildPingToVercelLambda = (stack: CdkStack, props: StackProps) => {
+  const iamRole = buildIamRoleForLambda(stack, props, 'ping-to-vercel-lambda');
+
+  return new lambda.DockerImageFunction(stack, `ping-to-vercel-lambda-${props.stage}`, {
+    functionName: `ping-to-vercel-lambda-${props.stage}`,
+    code: lambda.DockerImageCode.fromImageAsset('./lambda/crawler', {
+      cmd: ['notify_news_function.ping_to_vercel_handler'],
+      buildArgs: {
+        '--platform': 'linux/amd64',
+      },
+    }),
+    timeout: Duration.seconds(30),
+    memorySize: 128,
+    role: iamRole,
+    environment: {
+      // TODO: twitterCredentials ではないので名前直すとかなんとかする
+      VERCEL_CREDENTIALS_KEY_PREFIX: props.twitterCredentialsKeyPrefix,
+    },
+  });
+};

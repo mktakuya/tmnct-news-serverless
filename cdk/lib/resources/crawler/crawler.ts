@@ -11,7 +11,7 @@ import {
 import { CdkStack } from '../../cdk-stack';
 import { StackProps } from '../../stack-props';
 
-import { buildTweetNewsLambda, buildEmailNewsLambda } from './notifyNewsLambdas';
+import { buildTweetNewsLambda, buildEmailNewsLambda, buildPingToVercelLambda } from './notifyNewsLambdas';
 
 export const buildCrawlerStateMachine = (stack: CdkStack, props: StackProps, bucket: s3.Bucket) => {
   const stepfunctionsLogGroupName = `/aws/vendedlogs/states/tmnct-news-crawler-${props.stage}`;
@@ -41,10 +41,16 @@ export const buildCrawlerStateMachine = (stack: CdkStack, props: StackProps, buc
     lambdaFunction: emailNewsLambda,
   });
 
+  const pingToVercelLambda = buildPingToVercelLambda(stack, props);
+  const pingToVercelTask = new tasks.LambdaInvoke(stack, `ping-to-vercel-task-${props.stage}`, {
+    lambdaFunction: pingToVercelLambda,
+  });
+
   const definition = fetchNewsContentTask.next(
     new sfn.Parallel(stack, `tweet-news-parallel-${props.stage}`)
       .branch(tweetNewsTask)
       .branch(emailNewsTask)
+      .branch(pingToVercelTask)
       .next(new sfn.Succeed(stack, `success-${props.stage}`))
   );
 
