@@ -5,3 +5,6 @@ source "https://rubygems.org"
 group :development, :test do
   gem "standard"
 end
+
+gem "sequel"
+gem "pg"
