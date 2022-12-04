@@ -14,7 +14,7 @@ class TweetNewsService(NotifyNewsService):
     def notify(self) -> None:
         tweet_body = self.__build_tweet_body()
         image_paths = self.__download_images()
-        self.twitter_client.tweet(tweet_body, image_paths)
+        self.twitter_client.tweet(tweet_body, image_paths[:4])
 
     def __build_tweet_body(self):
         return (
