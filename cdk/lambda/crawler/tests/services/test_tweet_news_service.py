@@ -31,7 +31,7 @@ class TestTweetNewsService(unittest.TestCase):
 
         service = TweetNewsService(news=news, twitter_client=twitter_client)
 
-        expected_body = "タイトル\nhttps://example.com/n/slug #苫小牧高専"
+        expected_body = "タイトル\nhttps://tmnct-news.m6a.jp/n/slug #苫小牧高専"
 
         service.notify()
 

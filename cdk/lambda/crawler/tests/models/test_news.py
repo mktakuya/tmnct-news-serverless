@@ -27,7 +27,7 @@ news = News(
 
 class TestNews(unittest.TestCase):
     def test_short_url(self):
-        assert news.short_url() == "https://example.com/n/d72d469eb3"
+        assert news.short_url() == "https://tmnct-news.m6a.jp/n/d72d469eb3"
 
     def test_image_urls_with_news_has_images(self):
         expected = [
