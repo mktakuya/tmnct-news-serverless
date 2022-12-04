@@ -20,3 +20,7 @@ class Settings(object):
             "TWITTER_CREDENTIALS_KEY_PREFIX",
             self.DEFAULT_TWITTER_CREDENTIALS_KEY_PREFIX
         )
+        self.VERCEL_CREDENTIALS_KEY_PREFIX = os.getenv(
+            "VERCEL_CREDENTIALS_KEY_PREFIX",
+            ""
+        )

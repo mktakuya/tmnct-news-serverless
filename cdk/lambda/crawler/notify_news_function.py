@@ -1,9 +1,12 @@
 import logging
+import requests
 
 from crawler.usecases import notify_news_usecase
 from crawler.infrastructures.adapters import NewsDataAdapter
 from crawler.infrastructures.services import TweetNewsService, EmailNewsService
 from crawler.utils.twitter import TwitterClient
+
+from crawler.vercel_credentials import get_vercel_webhook_url
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -27,3 +30,14 @@ def email_news_handler(event, _context):
     service = EmailNewsService(news)
 
     notify_news_usecase.notify_news(notifier=service)
+
+
+# TODO: あとでちゃんと実装する
+def ping_to_vercel_handler(event, _context):
+    logger.info("Started lambda function as pingToVercelLambda with event: %s", event)
+
+    result = get_vercel_webhook_url()
+    webhook_url = result["VERCEL_WEBHOOK_URL"]
+
+    if webhook_url != "":
+        requests.post(webhook_url)
