@@ -20,7 +20,7 @@ class News:
 
     def short_url(self):
         # TODO: 環境ごとの正しいURLで実装する
-        return f"https://example.com/n/{self.slug}"
+        return f"https://tmnct-news.m6a.jp/n/{self.slug}"
 
     def image_urls(self):
         soup = BeautifulSoup(self.content, "html.parser")
