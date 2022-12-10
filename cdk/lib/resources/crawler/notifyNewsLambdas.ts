@@ -29,6 +29,8 @@ export const buildTweetNewsLambda = (stack: CdkStack, props: StackProps) => {
     memorySize: 128,
     role: iamRole,
     environment: {
+      ENV: props.stage,
+      CREDENTIALS_KEY_PREFIX: props.credentialsKeyPrefix,
       TWITTER_CREDENTIALS_KEY_PREFIX: props.twitterCredentialsKeyPrefix,
     },
   });
@@ -48,7 +50,10 @@ export const buildEmailNewsLambda = (stack: CdkStack, props: StackProps) => {
     timeout: Duration.seconds(30),
     memorySize: 128,
     role: iamRole,
-    environment: {},
+    environment: {
+      ENV: props.stage,
+      CREDENTIALS_KEY_PREFIX: props.credentialsKeyPrefix,
+    },
   });
 };
 
@@ -67,6 +72,9 @@ export const buildPingToVercelLambda = (stack: CdkStack, props: StackProps) => {
     memorySize: 128,
     role: iamRole,
     environment: {
+      ENV: props.stage,
+      CREDENTIALS_KEY_PREFIX: props.credentialsKeyPrefix,
+
       // TODO: twitterCredentials ではないので名前直すとかなんとかする
       VERCEL_CREDENTIALS_KEY_PREFIX: props.twitterCredentialsKeyPrefix,
     },
