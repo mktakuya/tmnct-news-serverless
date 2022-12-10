@@ -1,7 +1,7 @@
 import tweepy
 
 from crawler.settings import Settings
-from crawler.twitter_credentials import get_twitter_credentials
+from crawler.credentials import get_twitter_credentials
 
 settings = Settings()
 

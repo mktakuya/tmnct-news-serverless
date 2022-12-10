@@ -19,11 +19,3 @@ class Settings(object):
         self.NEWS_FEED_URL = os.getenv("NEWS_FEED_URL", self.DEFAULT_NEWS_FEED_URL)
         self.S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME", self.DEFAULT_S3_BUCKET_NAME)
         self.CREDENTIALS_KEY_PREFIX = os.getenv("CREDENTIALS_KEY_PREFIX", "")
-        self.TWITTER_CREDENTIALS_KEY_PREFIX = os.getenv(
-            "TWITTER_CREDENTIALS_KEY_PREFIX",
-            self.DEFAULT_TWITTER_CREDENTIALS_KEY_PREFIX
-        )
-        self.VERCEL_CREDENTIALS_KEY_PREFIX = os.getenv(
-            "VERCEL_CREDENTIALS_KEY_PREFIX",
-            ""
-        )
