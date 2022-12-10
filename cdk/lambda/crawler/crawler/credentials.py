@@ -49,7 +49,7 @@ def get_twitter_credentials():
 
 
 def get_vercel_webhook_url():
-    if settings.CREDENTIALS_KEY_PREFIX == "":
+    if settings.ENV != "production":
         return {
             "VERCEL_WEBHOOK_URL": "",
         }
