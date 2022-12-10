@@ -31,7 +31,6 @@ export const buildTweetNewsLambda = (stack: CdkStack, props: StackProps) => {
     environment: {
       ENV: props.stage,
       CREDENTIALS_KEY_PREFIX: props.credentialsKeyPrefix,
-      TWITTER_CREDENTIALS_KEY_PREFIX: props.twitterCredentialsKeyPrefix,
     },
   });
 };
@@ -74,9 +73,6 @@ export const buildPingToVercelLambda = (stack: CdkStack, props: StackProps) => {
     environment: {
       ENV: props.stage,
       CREDENTIALS_KEY_PREFIX: props.credentialsKeyPrefix,
-
-      // TODO: twitterCredentials ではないので名前直すとかなんとかする
-      VERCEL_CREDENTIALS_KEY_PREFIX: props.twitterCredentialsKeyPrefix,
     },
   });
 };
