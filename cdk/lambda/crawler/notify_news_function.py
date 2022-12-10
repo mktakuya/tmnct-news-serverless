@@ -7,7 +7,7 @@ from crawler.infrastructures.services import TweetNewsService, EmailNewsService
 from crawler.utils.twitter import TwitterClient
 from crawler.settings import Settings
 
-from crawler.vercel_credentials import get_vercel_webhook_url
+from crawler.credentials import get_vercel_webhook_url
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
