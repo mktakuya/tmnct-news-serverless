@@ -5,5 +5,4 @@ export interface StackProps extends StackPropsType {
   readonly newsFeedUrl: string;
   readonly s3BucketName: string;
   readonly credentialsKeyPrefix: string;
-  readonly twitterCredentialsKeyPrefix: string;
 }
