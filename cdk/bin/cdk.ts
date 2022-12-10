@@ -8,8 +8,9 @@ const app = new cdk.App();
 const stage = app.node.tryGetContext('stage');
 const config = app.node.tryGetContext('config')[stage] || {};
 
-new CdkStack(app, 'CdkStack', {
+new CdkStack(app, `tmnct-news-stack-${stage}`, {
   stage,
+  stackName: `tmnct-news-stack-${stage}`,
   ...config,
   env: {
     account: process.env.CDK_DEFAULT_ACCOUNT,
