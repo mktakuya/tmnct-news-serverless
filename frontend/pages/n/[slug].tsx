@@ -25,7 +25,7 @@ const NewsPage: NextPage<Props> = (props) => {
 
   return (
     <Layout>
-      <Heading>{news!.title}</Heading>
+      <Heading>{news?.title}</Heading>
     </Layout>
   );
 };
@@ -39,7 +39,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 };
 
